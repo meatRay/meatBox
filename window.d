@@ -7,6 +7,7 @@ import derelict.sdl2.sdl;
 import core.thread;
 
 import meat.keyboard;
+import meat.mouse;
 
 static this()
 {
@@ -24,11 +25,11 @@ public class Window
 	SDL_GLContext _context;
 	SDL_Event _wndwEvnt;
 	Thread _updateThread;
-	Keyboard _keyboard;	
+	Keyboard _keyboard;
 	bool _running;
 	int _width, _height;
 	float _aspectRatio;
-	int _mspf =16, _mspu =16;
+	uint _mspf =16, _mspu =16;
 	
 	void setSize( int width, int height )
 	{
@@ -46,6 +47,10 @@ public class Window
 	}
 	
 protected:
+	uint framesPerSecond() @property
+		{ return 1000 /_mspf;}
+	uint updatesPerSecond() @property
+		{ return 1000 /_mspu;}
 	/++
 	+ Override to specify Update behaviour. 
 	+ Called by the Worker-thread to run non-visual updates.
@@ -68,51 +73,51 @@ protected:
 		{}
 
 public:
-	@property Keyboard keyboard()
-		{ return this._keyboard; }
+	Keyboard keyboard() @property
+		{ return this._keyboard;}
 	/++ Returns: Window Width in Pixels+/
-	@property int width()
-		{ return this._width; }
+	int width() @property
+		{ return this._width;}
 	/++ Returns: Window Height in Pixels+/
-	@property int height()
-		{ return this._height; }
-	@property float aspectRatio()
-		{ return this._aspectRatio; }
+	int height() @property
+		{ return this._height;}
+	float aspectRatio() @property
+		{ return this._aspectRatio;}
 	void quit()
-		{ this._running = false; }
-	void run( ubyte fps, ubyte ups )
+		{ this._running = false;}
+	void run( ubyte fps, ubyte ups)
 	{
 		this._mspu =1000 /ups;
-		run( fps );
+		run( fps);
 	}
-	void run( ubyte fps )
+	void run( ubyte fps)
 	{
 		this._mspf =1000 /fps;
 		run();
 	}
-	void run( )
+	void run()
 	{
 		this.load();
 		_running = true;
 		
-		_updateThread = new Thread( &runUpdate );
+		_updateThread = new Thread( &runUpdate);
 		_updateThread.start();
 		
-		while( _running )
+		while( _running)
 		{
-			while( SDL_PollEvent( &_wndwEvnt ) == 1)
+			while( SDL_PollEvent( &_wndwEvnt) == 1)
 			{
-				switch ( _wndwEvnt.type )
+				switch ( _wndwEvnt.type)
 				{
-					case( SDL_QUIT ):
-						this._running = false;
-						break;
-					case( SDL_WINDOWEVENT ):
-						if( _wndwEvnt.window.event == SDL_WINDOWEVENT_RESIZED )
+					case( SDL_WINDOWEVENT):
+						if( _wndwEvnt.window.event == SDL_WINDOWEVENT_RESIZED)
 						{
-							this.setSize( _wndwEvnt.window.data1, _wndwEvnt.window.data2 );
+							this.setSize( _wndwEvnt.window.data1, _wndwEvnt.window.data2);
 							this.resize();
 						}
+						break;
+					case( SDL_QUIT):
+						this._running = false;
 						break;
 					default:
 						processEvent( _wndwEvnt);
@@ -121,8 +126,8 @@ public:
 			}
 			render();
 			update();
-			SDL_GL_SwapWindow( _window );
-			Thread.sleep( dur!("msecs")( _mspf ) );
+			SDL_GL_SwapWindow( _window);
+			Thread.sleep( dur!("msecs")( _mspf));
 		}
 		_updateThread.join();
 	}

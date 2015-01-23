@@ -22,10 +22,7 @@ package:
 		this._keyptr =SDL_GetKeyboardState(null);
 	}
 public:
-	/++
-	+ Checks if key is pressed.
-	+ Equivalent to !keyUp( key) 
-	+/
+	/++ Checks if key is pressed.+/
 	bool keyDown( SDL_Scancode key ) const
 		{ return this._keyptr[key] == 1; }
 }

@@ -16,9 +16,7 @@ static this()
 	DerelictSDL2.load();
 }
 
-/++
-+ Window encapsulates state-based OpenGL and SDL2 loading.
-+/
+/++ Encapsulates state-based OpenGL and SDL2 into something much more friendly.+/
 public class Window
 {
 	SDL_Window* _window;
@@ -28,14 +26,12 @@ public class Window
 	Keyboard _keyboard;
 	bool _running;
 	int _width, _height;
-	float _aspectRatio;
 	uint _mspf =16, _mspu =16;
 	
 	void setSize( int width, int height )
 	{
 		this._width =width;
 		this._height =height;
-		this._aspectRatio =cast(float)this._width /_height;
 	}
 	void runUpdate( )
 	{
@@ -47,14 +43,14 @@ public class Window
 	}
 	
 protected:
-	uint framesPerSecond() @property
-		{ return 1000 /_mspf;}
-	uint updatesPerSecond() @property
-		{ return 1000 /_mspu;}
-	/++
-	+ Override to specify Update behaviour. 
-	+ Called by the Worker-thread to run non-visual updates.
-	+/
+	/++ Returns: Renders made each second.+/
+	uint framesPerSecond() @property const
+		{ return 1000 /_mspf; }
+	/++ Returns: Updates made each second.+/
+	uint updatesPerSecond() @property const
+		{ return 1000 /_mspu; }
+	/++ Override to specify update behaviour. 
+	+ Called by the Worker-thread to run non-visual updates.+/
 	void update()
 		{ this.onUpdate(); }
 	/++
@@ -63,75 +59,83 @@ protected:
 	+/
 	void render()
 		{ this.onRender(); }
-	/++ Override to specify Load behaviour.+/
+	/++ Override to specify loading behaviour.+/
 	void load()
 		{ this.onLoad(); }
-	/++ Override to specify Resize behaviour.+/
+	/++ Override to specify resizing behaviour.+/
 	void resize()
 		{ this.onResize(); }
-	void processEvent( SDL_Event event)
+	/++ Override to specify unique actions on SDL events.+/
+	void processEvent( SDL_Event event )
 		{}
-
+		
 public:
+	/++ Returns: Reference to keyboard state.+/
 	Keyboard keyboard() @property
-		{ return this._keyboard;}
-	/++ Returns: Window Width in Pixels+/
-	int width() @property
-		{ return this._width;}
-	/++ Returns: Window Height in Pixels+/
-	int height() @property
-		{ return this._height;}
-	float aspectRatio() @property
-		{ return this._aspectRatio;}
+		{ return this._keyboard; }
+	/++ Returns: Window width in pixels+/
+	int width() @property const
+		{ return this._width; }
+	/++ Returns: Window height in pixels+/
+	int height() @property const
+		{ return this._height; }
+	///
+	float aspectRatio() @property const
+		{ return cast(float)this._width /_height; }
+	/++ Halt running.+/
 	void quit()
-		{ this._running = false;}
-	void run( ubyte fps, ubyte ups)
+		{ this._running = false; }
+	///
+	void run( ubyte fps, ubyte ups )
 	{
 		this._mspu =1000 /ups;
-		run( fps);
+		run( fps );
 	}
-	void run( ubyte fps)
+	///
+	void run( ubyte fps )
 	{
 		this._mspf =1000 /fps;
 		run();
 	}
+	///
 	void run()
 	{
 		this.load();
 		_running = true;
 		
-		_updateThread = new Thread( &runUpdate);
+		_updateThread = new Thread( &runUpdate );
 		_updateThread.start();
 		
 		while( _running)
 		{
-			while( SDL_PollEvent( &_wndwEvnt) == 1)
+			while( SDL_PollEvent( &_wndwEvnt ) == 1)
 			{
-				switch ( _wndwEvnt.type)
+				switch ( _wndwEvnt.type )
 				{
-					case( SDL_WINDOWEVENT):
-						if( _wndwEvnt.window.event == SDL_WINDOWEVENT_RESIZED)
+					case( SDL_WINDOWEVENT ):
+						if( _wndwEvnt.window.event == SDL_WINDOWEVENT_RESIZED )
 						{
-							this.setSize( _wndwEvnt.window.data1, _wndwEvnt.window.data2);
+							this.setSize( _wndwEvnt.window.data1, _wndwEvnt.window.data2 );
 							this.resize();
 						}
 						break;
-					case( SDL_QUIT):
+					case( SDL_QUIT ):
 						this._running = false;
 						break;
 					default:
-						processEvent( _wndwEvnt);
+						processEvent( _wndwEvnt );
 						break;
 				}
 			}
 			render();
-			update();
-			SDL_GL_SwapWindow( _window);
-			Thread.sleep( dur!("msecs")( _mspf));
+			SDL_GL_SwapWindow( _window );
+			Thread.sleep( dur!("msecs")( _mspf ) );
 		}
 		_updateThread.join();
 	}
+	///
 	void delegate() onUpdate, onRender, onLoad, onResize;
+	///
 	this( string title, int x, int y, int width, int height )
 	{
 		SDL_Init( SDL_INIT_VIDEO );
@@ -153,12 +157,12 @@ public:
 		{
 			DerelictGL3.reload();
 			DerelictGL.reload();
-	}}
+		}
+	}
 	~this()
 	{
 		SDL_GL_DeleteContext( _context );
 		SDL_DestroyWindow( _window );
 		SDL_Quit();
-	}
-	
+	}	
 }

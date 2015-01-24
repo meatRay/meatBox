@@ -33,7 +33,7 @@ public class Window
 		this._width =width;
 		this._height =height;
 	}
-	void runUpdate( )
+	void runUpdate()
 	{
 		while( this._running )
 		{

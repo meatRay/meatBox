@@ -13,6 +13,14 @@ public:
 	float x, y;
 	string text;
 	Font font;
+	void render()
+	{
+		/+ Scale too+/
+		glPushMatrix();
+		glTranslatef( x, y, 0 );
+		font.print( text );
+		glPopMatrix();
+	}
 }
 
 class Font
@@ -48,6 +56,8 @@ public:
 		uint y =0;
 		for( size_t i =0; i < text.length; ++i )
 		{
+			if( text[i] == '\n' )
+				{ --y; continue; }
 			glBindTexture( GL_TEXTURE_2D, _map[text[i]].texture );
 			glEnable( GL_TEXTURE_2D );
 			glBegin( GL_QUADS );

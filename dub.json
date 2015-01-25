@@ -2,6 +2,7 @@
 	"name": "meatbox",
 	"description": "Boxed OpenGl rendering, feat. SDL2, FreeType and pain.",
 	"copyright": "Copyright © 2015, meatRay",
+	"license": "BSL-1.0",
 	"authors": ["meatRay"],
 	"targetType": "library",
 	"dependencies": 

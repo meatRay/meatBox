@@ -1,5 +1,5 @@
 {
-	"name": "meatBox",
+	"name": "meatbox",
 	"description": "Boxed OpenGl rendering, feat. SDL2, FreeType and pain.",
 	"copyright": "Copyright © 2015, meatRay",
 	"authors": ["meatRay"],

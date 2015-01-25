@@ -1,4 +1,4 @@
-module meat.mouse;
+module meatbox.mouse;
 
 class Mouse
 {

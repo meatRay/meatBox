@@ -1,5 +1,5 @@
 /++Authors: meatRay+/
-module meat.keyboard;
+module meatbox.keyboard;
 
 import derelict.sdl2.sdl;
 

@@ -1,6 +1,6 @@
-module meat.textbox;
+module meatbox.textbox;
 
-import meat.window;
+import meatbox.window;
 
 import derelict.freetype.ft;
 

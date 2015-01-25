@@ -1,5 +1,5 @@
 /++Authors: meatRay+/
-module meat.camera;
+module meatbox.camera;
 
 /++
 + Stores translations and velocities.

@@ -1,4 +1,4 @@
-module meat.image;
+module meatbox.image;
 
 import derelict.opengl3.gl3;
 import derelict.sdl2.sdl;

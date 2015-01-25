@@ -1,13 +1,13 @@
 /++Authors: meatRay+/
-module meat.window;
+module meatbox.window;
 
 public import derelict.opengl3.gl;
 public import derelict.opengl3.gl3;
 import derelict.sdl2.sdl;
 import core.thread;
 
-import meat.keyboard;
-import meat.mouse;
+import meatbox.keyboard;
+import meatbox.mouse;
 
 static this()
 {

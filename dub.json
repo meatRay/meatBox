@@ -1,8 +1,8 @@
 {
-	"name": "meat",
-	"description": "A minimal D application.",
+	"name": "meatBox",
+	"description": "Boxed OpenGl rendering, feat. SDL2, FreeType and pain.",
 	"copyright": "Copyright © 2015, meatRay",
-	"authors": ["Shannon C"],
+	"authors": ["meatRay"],
 	"targetType": "library",
 	"dependencies": 
 	{

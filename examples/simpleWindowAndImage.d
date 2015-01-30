@@ -1,8 +1,5 @@
 import meatbox.window;
-//import meatbox.textbox;
 import meatbox.imagebox;
-import std.stdio;
-import derelict.sdl2.sdl;
 
 void main()
 {

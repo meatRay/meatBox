@@ -8,7 +8,10 @@ import derelict.sdl2.sdl;
 import derelict.sdl2.image;
 
 static this()
-	{ IMG_Init( IMG_INIT_PNG ); }
+{ 
+	DerelictSDL2Image.load();
+	IMG_Init( IMG_INIT_PNG );
+}
 static ~this()
 	{ IMG_Quit(); }
 
@@ -24,8 +27,8 @@ public:
 	override void height( int height ) @property
 	{
 		super.height =height;
-		this._verts[1] =height;
-		this._verts[7] =height;
+		this._verts[3] =height;
+		this._verts[5] =height;
 	}
 	this()
 	{ 
@@ -43,7 +46,9 @@ public:
 	{
 		SDL_Surface* img =IMG_Load( cast(const(char)*)(path) );
 		if( img is null )
-			{ return false; }
+		{ 
+			return false; 
+		}
 			
 		glBindTexture( GL_TEXTURE_2D, _buffer );
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
@@ -62,7 +67,7 @@ public:
 		glBindTexture( GL_TEXTURE_2D, _buffer );
 		
 		glPushMatrix();
-		glTranslatef( x, -y, 0);
+		glTranslatef( x, y, 0);
 		glDrawArrays( GL_QUADS, 0, 4);
 		glPopMatrix();
 		
@@ -100,9 +105,9 @@ private:
 	uint _buffer;
 	float[8] _verts =
 	[ 
-		0f, 1f,
 		0f, 0f,
-		1f, 0f,
-		1f, 1f
+		0f, 1f,
+		1f, 1f,
+		1f, 0f
 	];
 }

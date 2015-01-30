@@ -7,7 +7,7 @@ import derelict.sdl2.sdl;
 void main()
 {
 	auto wndw =new GameWindow("wndw", 300, 300, 600, 450);
-	wndw.image =new Imagebox( `C:\D\Projects\winda\Actor.png` );
+	wndw.image =new Imagebox( `Actor.png` ); //Assuming Actor.png is in the working directory.
 	wndw.image.x =20;
 	wndw.image.y =20;
 	
@@ -18,16 +18,11 @@ class GameWindow: Window
 {
 public:
 	Imagebox image;
-	/++Construct a new GameWindow, with a title, position, and size.+/
 	this( string title, int x, int y, int width, int height)
 		{ 
 			super( title, x, y, width,height); 
 		}
 protected:
-	/++
-	+ Begin openGl, and ask the Grid to render.
-	+ See_Also: meat.window.Window.render()
-	+/
 	override void render()
 	{
 		glClear( GL_COLOR_BUFFER_BIT );
@@ -35,10 +30,7 @@ protected:
 		image.render();
 		Imagebox.endRender();
 	}
-	/++
-	+ Calculate openGl matrices.
-	+ See_Also: meat.window.Window.load()
-	+/
+
 	override void load()
 	{
 		debug writefln( "Beginning load");
@@ -51,10 +43,7 @@ protected:
 		glOrtho(0, width, height, 0, -1f, 1f);
 		glMatrixMode( GL_MODELVIEW);
 	}
-	/++
-	+ Recalulate openGl matrices.
-	+ See_Also: meat.window.Window.resize()
-	+/
+
 	override void resize()
 	{
 		debug writefln( "resizing to  %d, by %d. Ratio of %2f", width, height, aspectRatio );

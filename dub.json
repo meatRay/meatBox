@@ -9,6 +9,5 @@
 	{
 		"derelict-sdl2":"~>1.0.0",
 		"derelict-gl3":"~master",
-		"derelict-ft":"~master",
 	}
 }

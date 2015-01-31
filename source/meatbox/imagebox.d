@@ -18,18 +18,20 @@ static ~this()
 class Imagebox: Box
 {
 public:
-	override void width( int width ) @property
+	void width( int width ) @property
 	{
-		super.width =width;
 		this._verts[4] =width;
 		this._verts[6] =width;
+		super.width =width;
 	}
-	override void height( int height ) @property
+	int width() const @property{ return super.width; }
+	void height( int height ) @property
 	{
-		super.height =height;
 		this._verts[3] =height;
 		this._verts[5] =height;
+		super.height =height;
 	}
+	int height() const @property{ return super.height; }
 	this()
 	{ 
 		glGenTextures( 1, &_buffer );
@@ -59,6 +61,7 @@ public:
 		this.width =img.w; this.height =img.h;
 		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, img.w, img.h, 0, GL_RGBA, GL_UNSIGNED_BYTE, cast(const(void)*)img.pixels );
 		glBindTexture( GL_TEXTURE_2D, 0 );
+		SDL_FreeSurface( img );
 		return true;
 	}
 	void render()
@@ -69,8 +72,7 @@ public:
 		glPushMatrix();
 		glTranslatef( x, y, 0);
 		glDrawArrays( GL_QUADS, 0, 4);
-		glPopMatrix();
-		
+		glPopMatrix();	
 	}
 	static this()
 	{

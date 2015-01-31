@@ -16,9 +16,9 @@ class GameWindow: Window
 public:
 	Imagebox image;
 	this( string title, int x, int y, int width, int height)
-		{ 
+	{ 
 			super( title, x, y, width,height); 
-		}
+	}
 protected:
 	override void render()
 	{

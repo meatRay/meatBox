@@ -19,6 +19,7 @@ static this()
 /++ Encapsulates state-based OpenGL and SDL2 into something much more friendly.+/
 public class Window
 {
+private:
 	SDL_Window* _window;
 	SDL_GLContext _context;
 	SDL_Event _wndwEvnt;

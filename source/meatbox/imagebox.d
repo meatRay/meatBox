@@ -1,6 +1,7 @@
 module meatbox.imagebox;
 
 import meatbox.box;
+import meatbox.colour;
 
 import derelict.opengl3.gl;
 import derelict.opengl3.gl3;
@@ -35,6 +36,7 @@ public:
 	this()
 	{ 
 		glGenTextures( 1, &_buffer );
+		this.colour =Colour.white;
 	}
 	this( string path )
 	{
@@ -66,6 +68,7 @@ public:
 	}
 	void render()
 	{
+		//glColor3ub( colour.red, colour.green, colour.blue );
 		glVertexPointer( 2, GL_FLOAT, 0, _verts.ptr );	
 		glBindTexture( GL_TEXTURE_2D, _buffer );
 		
@@ -87,7 +90,7 @@ public:
 		glEnable( GL_BLEND );
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );	
 		glColor4f( 1f, 1f, 1f, 1f );
-		glTexCoordPointer( 2, GL_FLOAT, 0, Imagebox.texbox.ptr );	
+		glTexCoordPointer( 2, GL_FLOAT, 0, Box.vertices.ptr );	
 	}
 	static void endRender()
 	{
@@ -97,13 +100,6 @@ public:
 		glDisableClientState( GL_VERTEX_ARRAY);
 	}
 private:
-	static immutable float[8] texbox =
-	[ 
-		0f, 0f,
-		0f, 1f,
-		1f, 1f,
-		1f, 0f
-	];
 	uint _buffer;
 	float[8] _verts =
 	[ 

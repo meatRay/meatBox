@@ -1,6 +1,7 @@
 module meatbox.textbox;
 
 import meatbox.window;
+import meatbox.colour;
 
 import derelict.sdl2.ttf;
 import derelict.sdl2.sdl;
@@ -12,13 +13,6 @@ static this()
 }
 static ~this()
 	{ TTF_Quit(); }
-
-alias Color =Colour;
-struct Colour
-{
-public:
-	ubyte red, green, blue;
-}
 
 alias Font =TTF_Font*;
 alias openFont =TTF_OpenFont;
@@ -74,6 +68,23 @@ public:
 		this._verts[5] =height;
 		
 		SDL_FreeSurface( surf );
+	}
+	static void startRender()
+	{
+		glEnableClientState( GL_VERTEX_ARRAY );
+		glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+		glEnable( GL_TEXTURE_2D );
+		glEnable( GL_BLEND );
+		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );	
+		glColor4f( 1f, 1f, 1f, 1f );
+		glTexCoordPointer( 2, GL_FLOAT, 0, Box.vertices.ptr );	
+	}
+	static void endRender()
+	{
+		glDisable( GL_BLEND);
+		glDisable( GL_TEXTURE_2D);
+		glDisableClientState( GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState( GL_VERTEX_ARRAY);
 	}
 private:
 	string _text;

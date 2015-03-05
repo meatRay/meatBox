@@ -2,6 +2,7 @@ module meatbox.textbox;
 
 import meatbox.window;
 import meatbox.colour;
+import meatbox.box;
 
 import derelict.sdl2.ttf;
 import derelict.sdl2.sdl;
@@ -16,13 +17,10 @@ static ~this()
 
 alias Font =TTF_Font*;
 alias openFont =TTF_OpenFont;
-class Textbox
+class Textbox: Box
 {
 public:
 	TTF_Font* font;
-	alias color =colour;
-	Colour colour;
-	int x, y, width, height;
 	string text() @property
 		{ return this._text; }
 	this( string text )
@@ -47,6 +45,8 @@ public:
 	}
 	void setText( string text )
 	{
+		if( text == "" )
+		{ text = " "; }
 		this._text =text;
 		import std.string: toStringz;
 		SDL_Surface* surf =TTF_RenderText_Blended( font, toStringz(text), SDL_Color(255, 255, 255) );		

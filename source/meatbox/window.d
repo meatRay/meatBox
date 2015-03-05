@@ -90,13 +90,13 @@ public:
 	void run( ubyte fps, ubyte ups )
 	{
 		this._mspu =1000 /ups;
-		run( fps );
+		this._mspf =1000 /fps;
+		run();
 	}
 	///
 	void run( ubyte fps )
 	{
-		this._mspf =1000 /fps;
-		run();
+		run( fps, fps);
 	}
 	///
 	void run()
@@ -132,7 +132,8 @@ public:
 			SDL_GL_SwapWindow( _window );
 			Thread.sleep( dur!("msecs")( _mspf ) );
 		}
-		_updateThread.join();
+		//if( _updateThread.isRunning )
+		//	{ _updateThread.join(); }
 	}
 	///
 	void delegate() onUpdate, onRender, onLoad, onResize;

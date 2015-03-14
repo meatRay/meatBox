@@ -15,7 +15,7 @@ public:
 	}
 	this()
 	{}
-static immutable float[8] vertices =
+	static immutable float[8] vertices =
 	[ 
 		0f, 0f,
 		0f, 1f,

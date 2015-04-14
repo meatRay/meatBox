@@ -40,7 +40,7 @@ public:
 		this.image = image;
 	}
 	///
-	void render()
+	override void render()
 	{
 		//glColor3ub( colour.red, colour.green, colour.blue );
 		glBindTexture( GL_TEXTURE_2D, image.buffer );

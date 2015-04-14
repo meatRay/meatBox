@@ -2,6 +2,8 @@ module meatbox.box;
 
 import meatbox.colour;
 
+import derelict.opengl3.gl;
+
 class Box
 {
 public:	
@@ -25,22 +27,11 @@ public:
 	void render()
 	{
 		//glColor3ub( colour.red, colour.green, colour.blue );
-		glBindTexture( GL_TEXTURE_2D, image.buffer );
 		
 		glPushMatrix();
 		glTranslatef( x, y, 0);
 		glDrawArrays( GL_QUADS, 0, 4);
 		glPopMatrix();	
-	}
-	static void render( Image image, float x, float y )
-	{
-		//Please stop me.
-		glBindTexture( GL_TEXTURE_2D, image.buffer );
-		
-		glPushMatrix();
-		glTranslatef( x, y, 0);
-		glDrawArrays( GL_QUADS, 0, 4);
-		glPopMatrix();
 	}
 	static this()
 	{

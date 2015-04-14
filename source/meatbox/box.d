@@ -18,9 +18,49 @@ public:
 	static immutable float[8] vertices =
 	[ 
 		0f, 0f,
-		0f, 1f,
+		1f, 0f,
 		1f, 1f,
-		1f, 0f
+		0f, 1f
 	];
+	void render()
+	{
+		//glColor3ub( colour.red, colour.green, colour.blue );
+		glBindTexture( GL_TEXTURE_2D, image.buffer );
+		
+		glPushMatrix();
+		glTranslatef( x, y, 0);
+		glDrawArrays( GL_QUADS, 0, 4);
+		glPopMatrix();	
+	}
+	static void render( Image image, float x, float y )
+	{
+		//Please stop me.
+		glBindTexture( GL_TEXTURE_2D, image.buffer );
+		
+		glPushMatrix();
+		glTranslatef( x, y, 0);
+		glDrawArrays( GL_QUADS, 0, 4);
+		glPopMatrix();
+	}
+	static this()
+	{
+		//Preload box vectors into GPU memory.
+		//Stick into base Box class?
+	}
+	///
+	static void startRender()
+	{
+		glEnableClientState( GL_VERTEX_ARRAY );
+		glEnable( GL_BLEND );
+		glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );	
+		glColor4f( 1f, 1f, 1f, 1f );
+		glVertexPointer( 2, GL_FLOAT, 0, Box.vertices.ptr );		
+	}
+	///
+	static void endRender()
+	{
+		glDisable( GL_BLEND );
+		glDisableClientState( GL_VERTEX_ARRAY );
+	}
 private:
 }

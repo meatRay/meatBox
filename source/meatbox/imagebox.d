@@ -23,25 +23,6 @@ class Imagebox: Box
 {
 public:
 	Image image;
-	///
-	void width( int width ) @property
-	{
-		this._verts[4] =width;
-		this._verts[6] =width;
-		super.width =width;
-	}
-	///
-	int width() const @property{ return super.width; }
-	///
-	void height( int height ) @property
-	{
-		this._verts[3] =height;
-		this._verts[5] =height;
-		super.height =height;
-	}
-	///
-	int height() const @property{ return super.height; }
-	///
 	this()
 	{ 
 		this.colour =Colour.white;
@@ -52,6 +33,7 @@ public:
 		this();
 		this.image = new Image( path );
 	}
+	///
 	this( Image image )
 	{
 		this();
@@ -61,7 +43,6 @@ public:
 	void render()
 	{
 		//glColor3ub( colour.red, colour.green, colour.blue );
-		glVertexPointer( 2, GL_FLOAT, 0, _verts.ptr );	
 		glBindTexture( GL_TEXTURE_2D, image.buffer );
 		
 		glPushMatrix();
@@ -71,13 +52,6 @@ public:
 	}
 	static void render( Image image, float x, float y )
 	{
-		//Please stop me.
-		glVertexPointer( 2, GL_FLOAT, 0, [ 
-		0f, 0f,
-		0f, 1f,
-		1f, 1f,
-		1f, 0f
-	].ptr );	
 		glBindTexture( GL_TEXTURE_2D, image.buffer );
 		
 		glPushMatrix();
@@ -99,7 +73,8 @@ public:
 		glEnable( GL_BLEND );
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );	
 		glColor4f( 1f, 1f, 1f, 1f );
-		glTexCoordPointer( 2, GL_FLOAT, 0, Box.vertices.ptr );	
+		glTexCoordPointer( 2, GL_FLOAT, 0, Box.vertices.ptr );
+		glVertexPointer( 2, GL_FLOAT, 0, Box.vertices.ptr );
 	}
 	///
 	static void endRender()
@@ -109,12 +84,11 @@ public:
 		glDisableClientState( GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState( GL_VERTEX_ARRAY);
 	}
-private:
-	float[8] _verts =
+	static immutable float[8] vertices =
 	[ 
-		0f, 0f,
 		0f, 1f,
 		1f, 1f,
-		1f, 0f
+		1f, 0f,
+		0f, 0f
 	];
 }

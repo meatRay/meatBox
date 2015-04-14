@@ -35,10 +35,14 @@ public:
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 		
+		this.aspect =cast(float)img.w /img.h;
 		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, img.w, img.h, 0, GL_RGBA, GL_UNSIGNED_BYTE, cast(const(void)*)img.pixels );
 		glBindTexture( GL_TEXTURE_2D, 0 );
 		SDL_FreeSurface( img );
 		return true;
 	}
 	uint buffer;
+	float aspect() const @property { return this._aspect; }
+private:
+	float _aspect;
 }

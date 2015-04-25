@@ -1,4 +1,4 @@
-module meatbox.textbox;
+depreciated( "Imagemapping does not comply with meatBox standards; If needed, be sure to resize width to ~1." ) module meatbox.textbox;
 
 import meatbox.window;
 import meatbox.colour;
@@ -17,6 +17,8 @@ static ~this()
 
 alias Font =TTF_Font*;
 alias openFont =TTF_OpenFont;
+
+//This entire file is festering with evil. Beware.
 class Textbox: Box
 {
 public:
@@ -26,10 +28,10 @@ public:
 	this( string text )
 		{ this( text, TTF_OpenFont("lucon.ttf", 16)); }
 	this( string text, Font font )
-		{
-			this.font =font;
-			setText( text );
-		}
+	{
+		this.font =font;
+		setText( text );
+	}
 	~this()
 		{ TTF_CloseFont( font ); }
 	override void render()

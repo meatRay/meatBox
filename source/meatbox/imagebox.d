@@ -53,6 +53,17 @@ public:
 		glDrawArrays( GL_QUADS, 0, 4);
 		glPopMatrix();	
 	}
+	static void render( Image image, float x, float y )
+	{
+		//glColor3ub( colour.red, colour.green, colour.blue );
+		glBindTexture( GL_TEXTURE_2D, image.buffer );
+		
+		glPushMatrix();
+		glTranslatef( x, y, 0);
+		glScalef( 1f, image.aspect, 1f );
+		glDrawArrays( GL_QUADS, 0, 4);
+		glPopMatrix();	
+	}
 	static this()
 	{
 		//Preload box vectors into GPU memory.

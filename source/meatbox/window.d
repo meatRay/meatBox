@@ -8,6 +8,7 @@ import core.thread;
 
 import meatbox.keyboard;
 import meatbox.mouse;
+import meatbox.frame;
 
 static this()
 {
@@ -16,6 +17,8 @@ static this()
 	DerelictSDL2.load();
 }
 
+//Port User functions to Frame?
+//-Removes unneeded mucking about in hyperspace.
 /++ Encapsulates state-based OpenGL and SDL2 into something much more friendly.+/
 public class Window
 {
@@ -63,14 +66,20 @@ protected:
 	/++ Override to specify loading behaviour.+/
 	void load()
 		{ this.onLoad(); }
-	/++ Override to specify resizing behaviour.+/
-	void resize()
-		{ this.onResize(); }
 	/++ Override to specify unique actions on SDL events.+/
 	void processEvent( SDL_Event event )
 		{}
 		
 public:
+	Frame currentFrame;
+	/++ Override to specify resizing behaviour.+/
+	void resize( int width, int height )
+	{
+		//Make a resize-stack.
+		this.onResize();
+		this.setSize( width, height );
+		this.currentFrame.renderContext()( width, height );
+	}
 	/++ Returns: Reference to keyboard state.+/
 	Keyboard keyboard() @property
 		{ return this._keyboard; }
@@ -117,8 +126,8 @@ public:
 					case( SDL_WINDOWEVENT ):
 						if( _wndwEvnt.window.event == SDL_WINDOWEVENT_RESIZED )
 						{
-							this.setSize( _wndwEvnt.window.data1, _wndwEvnt.window.data2 );
-							this.resize();
+							this.resize( _wndwEvnt.window.data1, _wndwEvnt.window.data2 );
+							this.currentFrame.renderContext()( width, height );
 						}
 						break;
 					case( SDL_QUIT ):

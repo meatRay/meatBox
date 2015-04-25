@@ -1,4 +1,5 @@
-depreciated( "Imagemapping does not comply with meatBox standards; If needed, be sure to resize width to ~1." ) module meatbox.textbox;
+///Imagemapping does not comply with meatBox standards; If needed, be sure to resize width to ~1.";
+module meatbox.textbox;
 
 import meatbox.window;
 import meatbox.colour;

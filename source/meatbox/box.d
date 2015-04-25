@@ -9,8 +9,8 @@ class Box
 public:	
 	alias color =colour;
 	Colour colour;
-	int x, y, width, height;
-	this( int x, int y, int width, int height )
+	float x, y, width, height;
+	this( float x, float y, float width, float height )
 	{
 		this.x =x; this.y =y;
 		this.width =width; this.height =height;
@@ -30,6 +30,7 @@ public:
 		
 		glPushMatrix();
 		glTranslatef( x, y, 0);
+		glScalef( width, height, 1f );
 		glDrawArrays( GL_QUADS, 0, 4);
 		glPopMatrix();	
 	}

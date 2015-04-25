@@ -102,6 +102,7 @@ public:
 	void run()
 	{
 		this.load();
+		this.resize( _width, _height );
 		_running = true;
 		
 		_updateThread = new Thread( &runUpdate );
@@ -137,9 +138,15 @@ public:
 	}
 	///
 	void delegate() onUpdate, onRender, onLoad, onResize;
+	
+	this()
+	{ this( "meatBox", 0, 0, 600, 450 ); }
 	///
 	this( string title, int x, int y, int width, int height )
 	{
+		scope( failure )
+			{ destroy( this ); }
+			
 		SDL_Init( SDL_INIT_VIDEO );
 
 		SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
@@ -151,15 +158,10 @@ public:
 		this._keyboard =new Keyboard();
 		
 		setSize( width, height );
-		onUpdate =onRender =onLoad =(){};
-		
-		scope( failure )
-			{ destroy( this ); }
-		scope( success )
-		{
-			DerelictGL3.reload();
-			DerelictGL.reload();
-		}
+		onUpdate =onRender =onLoad =onResize =(){};
+			
+		DerelictGL3.reload();
+		DerelictGL.reload();
 	}
 	~this()
 	{

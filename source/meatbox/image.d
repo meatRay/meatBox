@@ -20,13 +20,13 @@ public:
 	}
 	~this()
 		{ glDeleteTextures( 1, &buffer );}
-	///Returns: if it loaded properly because why not
-	bool load( string path )
+	
+	void load( string path )
 	{
 		SDL_Surface* img =IMG_Load( cast(const(char)*)(path) );
 		if( img is null )
 		{ 
-			return false; 
+			throw new Exception("Image not found");
 		}
 			
 		glBindTexture( GL_TEXTURE_2D, buffer );
@@ -39,7 +39,6 @@ public:
 		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, img.w, img.h, 0, GL_RGBA, GL_UNSIGNED_BYTE, cast(const(void)*)img.pixels );
 		glBindTexture( GL_TEXTURE_2D, 0 );
 		SDL_FreeSurface( img );
-		return true;
 	}
 	uint buffer;
 	float aspect() const @property { return this._aspect; }

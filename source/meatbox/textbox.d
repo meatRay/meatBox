@@ -32,7 +32,7 @@ public:
 		}
 	~this()
 		{ TTF_CloseFont( font ); }
-	void render()
+	override void render()
 	{
 		glColor3ub( colour.red, colour.green, colour.blue );
 		glVertexPointer( 2, GL_FLOAT, 0, _verts.ptr );	

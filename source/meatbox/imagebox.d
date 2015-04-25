@@ -30,14 +30,16 @@ public:
 	///
 	this( string path )
 	{
-		this();
-		this.image = new Image( path );
+		this( new Image(path) );		
 	}
 	///
 	this( Image image )
 	{
 		this();
 		this.image = image;
+		this.x =0f; this.y =0f; //Floats init to NaN; Use proper constructors.
+		this.width =1f;
+		this.height =1f/ image.aspect;
 	}
 	///
 	override void render()
@@ -47,17 +49,9 @@ public:
 		
 		glPushMatrix();
 		glTranslatef( x, y, 0);
+		glScalef( width, height, 1f );
 		glDrawArrays( GL_QUADS, 0, 4);
 		glPopMatrix();	
-	}
-	static void render( Image image, float x, float y )
-	{
-		glBindTexture( GL_TEXTURE_2D, image.buffer );
-		
-		glPushMatrix();
-		glTranslatef( x, y, 0);
-		glDrawArrays( GL_QUADS, 0, 4);
-		glPopMatrix();
 	}
 	static this()
 	{
